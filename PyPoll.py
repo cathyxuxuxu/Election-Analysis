@@ -45,12 +45,29 @@ with open(file_to_load) as election_data:
             candidate_votes[candidate_name]=0
         # add a vote to that candidate's count
         candidate_votes[candidate_name]+=1
+        
+##############################################
+# Already had the information from the dataset
+# Next step: Analyze the result and write.
+##############################################
+
+with open(file_to_save,"w") as txt_file:
+    # write some data to the file
+    election_results=(
+        f"\nElection Results\n"
+        f"-------------------------\n"
+        f"Total Votes: {total_votes:,}\n"
+        f"-------------------------\n")
+    print(election_results,end="")
+    txt_file.write(election_results)
     
     for candidate_name in candidate_votes:
         votes=candidate_votes[candidate_name]
         vote_percentage=votes/total_votes*100
         #print(f"{candidate_name}: received {vote_percentage:.1f}% of the vote.")
-        print(f"{candidate_name}: {vote_percentage:.1f}% ({votes:,})\n")
+        candinate_results=f"{candidate_name}: {vote_percentage:.1f}% ({votes:,})\n-------------------------\n"
+        print(candinate_results)
+        txt_file.write(candinate_results)
 
         if votes>winning_count and vote_percentage>winning_percentage:
             winning_count=votes
@@ -64,9 +81,4 @@ with open(file_to_load) as election_data:
         f"Winning Percentage: {winning_percentage:.1f}%\n"
         f"-------------------------\n")
     print(winning_candidate_summary)
-
-
-#with open(file_to_save,"w") as txt_file:
-    # write some data to the file
-#    txt_file.write("Counties in the Election\n------------------------\n")
-#    txt_file.write("Arapahoe\nDenver\nJefferson")
+    txt_file.write(winning_candidate_summary)
